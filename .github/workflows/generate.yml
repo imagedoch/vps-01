@@ -1,54 +1,49 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# .github/workflows/generate_readme.yml
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
-name: generate readme.md
+name: post commit CI
 
 on:
-  repository_dispatch:
+  push:
+    paths:
+      - "scripts/**/*.js"
+      - ".github/workflows/postCommit.yml"
   workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
+
+concurrency: postCommit
 
 jobs:
-  generate:
-    runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.allow-failure || true}}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-      fail-fast: false    
+  postCommit:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install requests 
-    - name: Clean Readme
-      run: |
-        rm README.md
-        date >> README.md 
-        echo "strDate=$(TZ=UTC date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
-    - name: Generate README
-      run: python generate.py
-    - name: Upload release asset
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./*
-        tag: ${{env.strDate}}
-        file_glob: true
-        overwrite: true
-        release_name: ${{env.strDate}}
-    
-    - name: Commit README
-      run: |
-        git config user.name "${GITHUB_ACTOR}"
-        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-        git add .
-        git commit -am "Update README"
-        git push --all -f https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          check-latest: true
+          cache: npm
+      - uses: technote-space/get-diff-action@v6
+        name: List diff
+      - name: Install dependencies
+        run: npm ci
+      - name: Auto browserify generator
+        run: node scripts/browserify/index.js
+      - name: Conventional Commits scopes generator
+        run: node scripts/conventionalCommitsScopesGenerator/index.js
+      - name: Auto prefetch
+        run: node scripts/prefetch/index.js
+      - name: Gadgets-definition Generator
+        run: node scripts/gadgetsDefinitionGenerator/index.js
+      - name: Gadget-polyfill generator
+        run: node scripts/generatePolyfill/index.js
+      - uses: EndBug/add-and-commit@v9
+        with:
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          default_author: github_actor
+          message: "auto: post Commit CI - commit from GitHub Actions"
+          push: false
+      - name: Show git status & push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/postCommit/push.js
