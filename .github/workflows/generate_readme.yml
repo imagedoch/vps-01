@@ -7,7 +7,8 @@ name: generate readme.md
 on:
   repository_dispatch:
   workflow_dispatch:
-
+  schedule:
+    - cron: '*/5 * * * *'
 jobs:
   generate:
     runs-on: ${{ matrix.os }}
@@ -28,23 +29,9 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         pip install requests 
-    - name: Clean Readme
-      run: |
-        rm README.md
-        date >> README.md 
-        echo "strDate=$(TZ=UTC date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
     - name: Generate README
       run: python generate.py
-    - name: Upload release asset
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./*
-        tag: ${{env.strDate}}
-        file_glob: true
-        overwrite: true
-        release_name: ${{env.strDate}}
-    
+
     - name: Commit README
       run: |
         git config user.name "${GITHUB_ACTOR}"
