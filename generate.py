@@ -2,11 +2,11 @@ import json, random, time, socket, platform
 
 timestr = time.strftime("%Y-%m-%d - %H:%M:%S UTC")
 
-nameid = "Chiemaeh"
+nameid = "imagedoch"
 
-repoid = "Java-Build"
+repoid = "vps-01"
 
-yamlid = "build"
+yamlid = "generate_readme"
 
 f = open("./README.md", "w")
 
