@@ -1,48 +1,42 @@
 
-
-<a href="https://github.com/MoonWhitmore"><h3 align="center"><b>MoonWhitmore</b></h3></a>
-
+<h3 align="center"><b>ShieldbladeNet</b></h3>
 <h3 align="center">Have a nice day!</h3>
-
+<p align="center">
+  <a href="https://github.com/ShieldbladeNet">
+    <img alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=ShieldbladeNet&hide=issues&hide_title=true&include_all_commits=true&bg_color=30,e96443,904e95&title_color=fff&text_color=fff" />
+    </a>     
+    
 <p align="center">
 
-  <a href="https://github.com/MoonWhitmore">
-    <img alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=MoonWhitmore&hide=issues&hide_title=true&include_all_commits=true&bg_color=30,e96443,904e95&title_color=fff&text_color=fff" />
-   </a>
-   
-#### This Page Create at:
-
-```bash
-
-2021-06-16 - 12:16:13 UTC
-
-```
-
-#### Create By Machine:
-
-```bash
-
-Host Name : fv-az71-786
-
-platform  : Linux-5.8.0-1033-azure-x86_64-with-glibc2.31
-
-Ip Local  : 10.1.0.98
-
-```
-
-[![build_firmware](https://github.com/MoonWhitmore/MoonWhitmore/actions/workflows/generate_readme.yml/badge.svg)](https://github.com/MoonWhitmore/MoonWhitmore/actions/workflows/generate_readme.yml) [![generate-code](https://github.com/MoonWhitmore/Jar-Runtime-v5/actions/workflows/generate-code.yml/badge.svg)](https://github.com/MoonWhitmore/Jar-Runtime-v5/actions/workflows/generate-code.yml)
-
-#### Download This code Here:
-
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/MoonWhitmore/Jar-Runtime-v5?style=for-the-badge&label=Download)](https://github.com/MoonWhitmore/Jar-Runtime-v5/releases) 
+[![build_firmware](https://github.com/ShieldbladeNet/Nano-Openwrt/actions/workflows/build-firmware.yml/badge.svg)](https://github.com/ShieldbladeNet/Nano-Openwrt/actions/workflows/build-firmware.yml)
 
 </p> 
 
-#### About Me :
+# Nano R1S R2S R4S x86 Openwrt 
+ 
+### Download Link：
 
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/ShieldbladeNet/Nano-Openwrt?style=for-the-badge&label=Download)](https://github.com/ShieldbladeNet/Nano-Openwrt/releases) 
+
+(Files do not need to be decompressed, you can directly use the flashing tool to flash in img.gz)
+
+### Use suggestions:
+The default user name is root, the password is password, and the LAN IP is 192.168.2.1
+After burning the firmware, insert the tf card and start it up. After the computer displays "Network (Connected)", enter http://immortalwrt/ in the browser to directly open the router background without modifying the local connection settings or checking the IP address.
+If the network status has been unrecognized (more than 5 minutes after power-on), please plug in and unplug the power directly and restart it.
+
+### Online upgrade method in the terminal:
 ```bash
-
-MoonWhitmore
-
+wget -qO- https://github.com/ShieldbladeNet/Nano-Openwrt/raw/main/scripts/autoupdate.sh | sh
 ```
+slim Version
+```bash
+wget -qO- https://github.com/ShieldbladeNet/Nano-Openwrt/raw/main/scripts/autoupdate.sh | ver=-slim sh
+```
+(Script provided by Gary Lau, thank you very much!)
 
+#### Firmware source code:
+https://github.com/immortalwrt/immortalwrt
+
+<h3 align="center"><b>This Page Create at</b></h3>
+<h3 align="center"><b>2021-06-10 - 11:37:27 UTC</b></h3>
